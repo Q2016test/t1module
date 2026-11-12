@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.homework'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Вторая задача: выполняется после test, в том числе при падении тестов.
+def testRunFinished = tasks.register('testRunFinished') {
+    group = 'verification'
+    description = 'Prints a message after the test run.'
+    doLast {
+        println 'Test run is over'
+    }
+}
+
+// Первая задача: стандартная задача Gradle запускает все JUnit-тесты проекта.
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    systemProperty 'file.encoding', 'UTF-8'
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+    // Случайные входные данные генерируются заново при каждом запуске.
+    outputs.upToDateWhen { false }
+    finalizedBy testRunFinished
+}
