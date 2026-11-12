@@ -1,0 +1,7 @@
+age,expected
+-1,Denied
+0,Denied
+17,Denied
+18,Denied
+19,Allowed
+99,Allowed

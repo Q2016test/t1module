@@ -1,0 +1,9 @@
+names,nameToRemove,expected
+Alex;Maria;Alex,Alex,Maria
+Alex;Maria,John,Alex;Maria
+Alex;alex,Alex,alex
+Alex;Alex,Alex,
+,Alex,
+NULL,Alex,
+Alex;NULL;Maria,NULL,Alex;Maria
+NULL;NULL,NULL,
